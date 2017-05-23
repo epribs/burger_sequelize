@@ -1,10 +1,10 @@
 var express = require("express");
 var router = express.Router();
 
-var burger = require("../models/burger");
+var burger = require("../config/orm");
 
 router.get("/", function(req, res) {
-  burger.all(function(data) {
+  burger.selectAll(function(data) {
     var hbsObj = {
       burgers: data
     };
@@ -14,19 +14,16 @@ router.get("/", function(req, res) {
 });
 
 router.post("/create", function(req,res) {
-  burger.create(["name"],
-    [req.body.name], function(data) {
+  burger.insertOne(
+    req.body.name, function(data) {
       res.redirect("/");
   });
 });
 
 router.put("/update", function(req, res) {
-  var condition = "id = " + req.body.id;
-  console.log("condition", condition);
-  console.log("devoured " + req.body.devoured);
-  burger.update({
-    id: req.body.id
-  }, condition, function(data) {
+
+  burger.updateOne(
+    req.body.id, function(data) {
     res.redirect("/");
   });
 });

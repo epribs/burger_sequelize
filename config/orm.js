@@ -1,5 +1,5 @@
-// Import MySQL connection.
-var connection = require("../config/connection.js");
+var Burger = require("../models").Burger;
+
 
 // Helper function for SQL syntax.
 function printQuestionMarks(num) {
@@ -26,47 +26,31 @@ function objToSql(ob) {
 }
 
 var burgerBuy = {
-  selectAll: function (table, cb) {
-    connection.query("SELECT * FROM " + table, function(err, res) {
-      if (err) {
-        throw err;
-      }
+  selectAll: function (cb) {
+    Burger.findAll().then(function(res) {
       cb(res);
     });
   },
-  insertOne: function(table, cols, vals, cb) {
-    var queryString = "INSERT INTO " + table;
+  insertOne: function(name, cb) {
 
-    queryString += " (";
-    queryString += cols.toString();
-    queryString += ") ";
-    queryString += "VALUES (";
-    queryString += printQuestionMarks(vals.length);
-    queryString += ") ";
-
-    console.log(queryString);
-
-    connection.query(queryString, vals, function(err, res) {
-      if (err) {
-        throw err;
-      }
-      console.log(res);
+    Burger.create({
+      burger_name: name,
+      devoured: false
+    }).then(function(res) {
       cb(res);
     });
   },
-  updateOne: function(table, id, cb) {
-    var queryString = "UPDATE " + table;
+  updateOne: function(vals, cb) {
 
-    queryString += " SET ";
-    queryString += objToSql({devoured: true});
-    queryString += " WHERE ";
-    queryString += id;
+    Burger.update({
+      devoured: true
+    },
+      {
+        where: {
+          id: vals
+        }
+      }).then(function(res) {
 
-    console.log(queryString);
-    connection.query(queryString, function(err, res) {
-      if (err) {
-        throw err;
-      }
       cb(res);
     });
   }

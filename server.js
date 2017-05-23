@@ -6,6 +6,10 @@ var exphbs = require("express-handlebars");
 // Import routes and give the server access to them.
 var routes = require("./controllers/burger_controller.js");
 
+var Models = require("./models");
+
+Models.sequelize.sync();
+
 var port = 3000;
 
 var app = express();

@@ -11,7 +11,7 @@
 		{{#each burgers}}
 			{{#unless this.devoured}}
 				<p class="alert alert-danger" style="width: 40%">
-					{{this.id}}. {{this.name}}
+					{{this.id}}. {{this.burger_name}}
 					<form id="devourBurger" action="/update?_method=PUT" method="POST">
 						<input type="hidden" name="id" value="{{this.id}}">
 						<input type="hidden" name="devoured" value="{{this.devoured}}">
@@ -26,7 +26,7 @@
 		{{#each burgers}}
 			{{#if this.devoured}}
 				<p class="alert alert-info" style="width: 40%">
-					{{this.id}}. {{this.name}}
+					{{this.id}}. {{this.burger_name}}
 				</p>
 			{{/if}}
 		{{/each}}
