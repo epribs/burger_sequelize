@@ -28,6 +28,8 @@ router.put("/update", function(req, res) {
   });
 });
 
+
+
 router.delete("/:id", function(req, res) {
   var condition = "id = " + req.params.id;
 
